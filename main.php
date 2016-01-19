@@ -35,7 +35,7 @@ function start($telegram,$update)
 		$img = curl_file_create('logo.png','image/png');
 		$contentp = array('chat_id' => $chat_id, 'photo' => $img);
 		$telegram->sendPhoto($contentp);
-		$reply = "Benvenuto. Questo è un servizio automatico (bot da Robot) per le ricette tipiche raccolte su ".NAME." con licenza CC-BY-SA. Puoi ricercare gli argomenti per parola chiave anteponendo il carattere - , oppure cliccare su Numero per cercare per numero numero ricetta. In qualsiasi momento scrivendo /start ti ripeterò questo messaggio di benvenuto.\nQuesto bot è stato realizzato da @piersoft e @iltempe grazie a ".NAME.". Il progetto e il codice sorgente sono liberamente riutilizzabili con licenza MIT.";
+		$reply = "Benvenuto. Questo è un servizio automatico (bot da Robot) per le ricette tipiche raccolte su ".NAME." con licenza CC-BY-SA. Mandaci anche tu la tua ricetta compilando: http://goo.gl/forms/yajhBkIzw7. In questo bot puoi ricercare gli argomenti per parola chiave anteponendo il carattere - , oppure cliccare su Numero per cercare per numero la ricetta. In qualsiasi momento scrivendo /start ti ripeterò questo messaggio di benvenuto.\nQuesto bot è stato realizzato da @piersoft e @il_tempe grazie a ".NAME.". Il progetto e il codice sorgente sono liberamente riutilizzabili con licenza MIT.";
 		$content = array('chat_id' => $chat_id, 'text' => $reply,'disable_web_page_preview'=>true);
 		$telegram->sendMessage($content);
 		$log=$today. ",new_info,," .$chat_id. "\n";
