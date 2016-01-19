@@ -68,13 +68,14 @@ exit;
 				$telegram->sendMessage($content);
 				$text=str_replace(" ","%20",$text);
 				$text=strtoupper($text);
-				$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20%2A%20WHERE%20upper(C)%20like%20%27%25";
+				$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20A%2CC%2CD%2CG%2CH%2CP%2CL%2CM%2CO%2CJ%2CK%20WHERE%20upper(C)%20like%20%27%25";
 				$urlgd .=$text;
 				$urlgd .="%25%27%20AND%20N%20IS%20NOT%20NULL&key=".GDRIVEKEY."&gid=".GDRIVEGID1;
 				$inizio=1;
 				$homepage ="";
 
 				$csv = array_map('str_getcsv',file($urlgd));
+				$csv=str_replace(array("\r", "\n"),"",$csv);
 
 				$count = 0;
 				foreach($csv as $data=>$csv1){
@@ -103,9 +104,9 @@ exit;
 
 
 					$homepage .="\n";
-					$homepage .="Ricetta N°: ".$csv[$i][0]."\n".$csv[$i][2]."\n";
+					$homepage .="Ricetta n°: ".$csv[$i][0]."\n".$csv[$i][1]."\n";
 					$homepage .="\nPer la risposta puoi digitare direttamente: ".$csv[$i][0]."\n";
-					$homepage .="\n____________\n";
+					$homepage .="____________\n";
 
 
 				}
@@ -126,7 +127,7 @@ exit;
 			$content = array('chat_id' => $chat_id, 'text' => $location,'disable_web_page_preview'=>true);
 			$telegram->sendMessage($content);
 		//	$text=str_replace(" ","%20",$text);
-			$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20%2A%20WHERE%20N%20IS%20NOT%20NULL";
+			$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20A%2CC%2CD%2CG%2CH%2CP%2CL%2CM%2CO%2CJ%2CK%20WHERE%20N%20IS%20NOT%20NULL";
 			//$urlgd .=$text;
 			$urlgd .="%20&key=".GDRIVEKEY."&gid=".GDRIVEGID1;
 			sleep (1);
@@ -134,6 +135,8 @@ exit;
 			$homepage ="";
 
 			$csv = array_map('str_getcsv',file($urlgd));
+			$csv=str_replace(array("\r", "\n"),"",$csv);
+
 			//var_dump($csv[1][0]);
 			$count = 0;
 			foreach($csv as $data=>$csv1){
@@ -156,9 +159,8 @@ exit;
 
 
 				$homepage .="\n";
-				$homepage .="N°: ".$csv[$i][0]." - ".$csv[$i][2];
-				$homepage .=$csv[$i][1]."\n";
-				$homepage .="____________\n";
+				$homepage .="N°: ".$csv[$i][0]." - ".$csv[$i][1];
+				$homepage .="\n____________\n";
 
 
 			}
@@ -172,12 +174,14 @@ exit;
 			$location="Sto elaborando la ricetta n°: ".$text;
 			$content = array('chat_id' => $chat_id, 'text' => $location,'disable_web_page_preview'=>true);
 			$telegram->sendMessage($content);
-			$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20%2A%20WHERE%20A%20%3D%20";
+			$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20A%2CC%2CD%2CG%2CH%2CP%2CL%2CM%2CO%2CJ%2CK%20WHERE%20A%20%3D%20";
 			$urlgd .=$text;
 			$urlgd .="%20AND%20N%20IS%20NOT%20NULL&key=".GDRIVEKEY."&gid=".GDRIVEGID1;
 			$inizio=1;
 			$homepage ="";
 			$csv = array_map('str_getcsv',file($urlgd));
+			$csv=str_replace(array("\r", "\n"),"",$csv);
+
 			$count = 0;
 			foreach($csv as $data=>$csv1){
 				$count = $count+1;
@@ -199,15 +203,15 @@ exit;
 
 
 				$homepage .="\n";
-				$homepage .="Titolo: ".$csv[$i][2]."\n";
-				$homepage .="Categoria: ".$csv[$i][3]."\n";
-				$homepage .="Ingredienti:\n".$csv[$i][4]."\n";
+				$homepage .="Titolo: ".$csv[$i][1]."\n";
+				$homepage .="Categoria: ".$csv[$i][2]."\n";
+				$homepage .="Ingredienti:\n".$csv[$i][8]."\n";
 				$homepage .="Preparazione:\n".$csv[$i][5]."\n";
-	if ($csv[$i][6] !=NULL || $csv[$i][7] !=NULL) $homepage .="Ricetta proposta da:\n".$csv[$i][6]." ".$csv[$i][7]."\n";
-	if ($csv[$i][12] !=NULL) $homepage .="Tempo di preparazione: ".$csv[$i][12]."\n";
+	if ($csv[$i][6] !=NULL || $csv[$i][7] !=NULL) $homepage .="Ricetta proposta da: ".$csv[$i][3]." ".$csv[$i][4]."\n";
+	if ($csv[$i][12] !=NULL) $homepage .="Tempo di preparazione: ".$csv[$i][7]."\n";
 	if ($csv[$i][9] !=NULL)	$homepage .="Foto: ".$csv[$i][9]."\n";
 				$homepage .="Città: ".$csv[$i][10]."\n";
-				$homepage .="Regione: ".$csv[$i][11];
+				$homepage .="Regione: ".$csv[$i][6];
 				$homepage .="\n____________\n";
 		}
 		$chunks = str_split($homepage, self::MAX_LENGTH);
@@ -263,7 +267,7 @@ exit;
 	 			//	echo $comune; debug
 	 			$comune=str_replace(" ","%20",$comune);
 	 			$comune=strtoupper($comune);
-	 			$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20%2A%20WHERE%20upper(K)%20contains%20%27";
+	 			$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20A%2CC%2CD%2CG%2CH%2CP%2CL%2CM%2CO%2CJ%2CK%20WHERE%20upper(K)%20contains%20%27";
 	 			$urlgd .=$comune;
 				$urlgd .="%27%20AND%20N%20IS%20NOT%20NULL&key=".GDRIVEKEY."&gid=".GDRIVEGID1;
 
@@ -292,15 +296,15 @@ exit;
 
 
 					$homepage .="\n";
-					$homepage .="Titolo: ".$csv[$i][2]."\n";
-					$homepage .="Categoria: ".$csv[$i][3]."\n";
-					$homepage .="Ingredienti:\n".$csv[$i][4]."\n";
+					$homepage .="Titolo: ".$csv[$i][1]."\n";
+					$homepage .="Categoria: ".$csv[$i][2]."\n";
+					$homepage .="Ingredienti:\n".$csv[$i][8]."\n";
 					$homepage .="Preparazione:\n".$csv[$i][5]."\n";
-		if ($csv[$i][6] !=NULL || $csv[$i][7] !=NULL) $homepage .="Ricetta proposta da:\n".$csv[$i][6]." ".$csv[$i][7]."\n";
-		if ($csv[$i][12] !=NULL) $homepage .="Tempo di preparazione: ".$csv[$i][12]."\n";
-		if ($csv[$i][9] !=NULL)				$homepage .="Foto: ".$csv[$i][9]."\n";
+		if ($csv[$i][6] !=NULL || $csv[$i][7] !=NULL) $homepage .="Ricetta proposta da: ".$csv[$i][3]." ".$csv[$i][4]."\n";
+		if ($csv[$i][12] !=NULL) $homepage .="Tempo di preparazione: ".$csv[$i][7]."\n";
+		if ($csv[$i][9] !=NULL)	$homepage .="Foto: ".$csv[$i][9]."\n";
 					$homepage .="Città: ".$csv[$i][10]."\n";
-					$homepage .="Regione: ".$csv[$i][11];
+					$homepage .="Regione: ".$csv[$i][6];
 					$homepage .="\n____________\n";
 			}
 			$chunks = str_split($homepage, self::MAX_LENGTH);
