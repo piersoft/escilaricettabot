@@ -1,6 +1,6 @@
 	<?php
 /**
-* Telegram Bot EsciLaRicetta Lic. MIT by Matteo Tempestini e Piersoft
+* Telegram Bot EsciLaRicetta Lic. MIT by Matteo Tempestini e Francesco "Piersoft" Paolicelli
 * @author Francesco Piero Paolicelli @piersoft derivato da parte di codice di @emergenzaprato
 */
 
@@ -38,7 +38,7 @@ if (strpos($text,'@escilaricettaBot') !== false) $text =str_replace("@escilarice
 		$img = curl_file_create('logo.png','image/png');
 		$contentp = array('chat_id' => $chat_id, 'photo' => $img);
 		$telegram->sendPhoto($contentp);
-		$reply = "Benvenuto. Questo è un servizio automatico (bot da Robot) per le ricette tipiche raccolte su ".NAME." con licenza CC-BY-SA. Mandaci anche tu la tua ricetta compilando: http://goo.gl/forms/yajhBkIzw7. In questo bot puoi ricercare gli argomenti per parola chiave anteponendo il carattere - , oppure cliccare su Numero per cercare per numero la ricetta e infine cercare per Città inviando la tua posizione (📎). In qualsiasi momento scrivendo /start ti ripeterò questo messaggio di benvenuto.\nQuesto bot è stato realizzato da @piersoft e @il_tempe grazie a ".NAME.".\nRingraziamo per il prezioso contributo Andrea Borruso, Ciro Spataro e Matteo Fortini. Il progetto e il codice sorgente sono liberamente riutilizzabili con licenza MIT.\nL'elenco delle ricette inserite dagli utenti è in licenza CC-BY-SA ed è in formato CSV: https://goo.gl/qy5GPM.\nSeguici su Facebook: https://www.facebook.com/EsciLaRicetta-1515883528729002/, su Twitter: @escilaricetta e sul nostro sito internet interattivo: http://escilaricetta.github.io/recipe-site/";
+		$reply = "Benvenuto. Questo è un servizio automatico (bot da Robot) per le ricette tipiche raccolte su ".NAME." con licenza CC-BY-SA. Mandaci anche tu la tua ricetta compilando: http://goo.gl/forms/yajhBkIzw7. In questo bot puoi ricercare gli argomenti per parola chiave anteponendo il carattere - , oppure cliccare su Numero per cercare per numero la ricetta e infine cercare per Città inviando la tua posizione (📎). In qualsiasi momento scrivendo /start ti ripeterò questo messaggio di benvenuto.\nQuesto bot è stato realizzato da @piersoft e @il_tempe grazie a ".NAME.".\nRingraziamo per il prezioso contributo Andrea Borruso, Ciro Spataro e Matteo Fortini. Il progetto e il codice sorgente sono liberamente riutilizzabili con licenza MIT.\nL'elenco delle ricette inserite dagli utenti è in licenza CC-BY-SA ed è in formato CSV: https://goo.gl/rfGvd1.\nSeguici su Facebook: https://www.facebook.com/EsciLaRicetta-1515883528729002/, su Twitter: @escilaricetta e sul nostro sito internet interattivo: http://escilaricetta.github.io/recipe-site/ e se proprio ti piace il progetto metti un voto su https://storebot.me/bot/escilaricettabot";
 		$content = array('chat_id' => $chat_id, 'text' => $reply,'disable_web_page_preview'=>true);
 		$telegram->sendMessage($content);
 		$log=$today. ",new_info,," .$chat_id. "\n";
@@ -74,9 +74,9 @@ exit;
 		//		$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20A%2CC%2CD%2CG%2CH%2CP%2CL%2CM%2CO%2CJ%2CK%20WHERE%20upper(C)%20like%20%27%25";
 				$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20%2A%20WHERE%20upper(C)%20like%20%27%25";
 				$urlgd .=$text;
-				$urlgd .="%25%27%20OR%20upper(E)%20like%20%27%25";
+				$urlgd .="%25%27%20OR%20upper(O)%20like%20%27%25";
 				$urlgd .=$text;
-				$urlgd .="%25%27%20AND%20N%20IS%20NOT%20NULL&key=".GDRIVEKEY."&gid=".GDRIVEGID2;
+				$urlgd .="%25%27%20AND%20upper(M)%20like%20%27X%27%20&key=".GDRIVEKEY."&gid=".GDRIVEGID2;
 				$inizio=1;
 				$homepage ="";
 
@@ -134,7 +134,7 @@ exit;
 			$telegram->sendMessage($content);
 		//	$text=str_replace(" ","%20",$text);
 //			$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20A%2CC%2CD%2CG%2CH%2CP%2CL%2CM%2CO%2CJ%2CK%20WHERE%20N%20IS%20NOT%20NULL";
-			$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20%2A%20WHERE%20upper(N)%20like%20%27X%27";
+			$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20%2A%20WHERE%20upper(M)%20like%20%27X%27";
 
 			$urlgd .="%20&key=".GDRIVEKEY."&gid=".GDRIVEGID2;
 			sleep (1);
@@ -167,7 +167,7 @@ exit;
 
 				$homepage .="\n";
 				$homepage .="N°: /".$csv[$i][0]."\n".$csv[$i][2];
-				$homepage .="\nRegione: ".$csv[$i][11];
+				$homepage .="\nRegione: ".$csv[$i][10];
 				$homepage .="\n____________\n";
 
 
@@ -190,7 +190,7 @@ exit;
 			$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20%2A%20WHERE%20A%20%3D%20";
 
 			$urlgd .=$text;
-			$urlgd .="%20AND%20N%20IS%20NOT%20NULL&key=".GDRIVEKEY."&gid=".GDRIVEGID2;
+			$urlgd .="%20AND%20upper(M)%20like%20%27X%27%20&key=".GDRIVEKEY."&gid=".GDRIVEGID2;
 			$inizio=1;
 			$homepage ="";
 			$csv = array_map('str_getcsv',file($urlgd));
@@ -215,9 +215,9 @@ exit;
 				}
 			for ($i=$inizio;$i<$count;$i++){
 
-				if ($csv[1][7]!=NULL){
+				if ($csv[1][8]!=NULL){
 				$fotoname=rand(5, 15);
-				$ch = curl_init($csv[1][7]);
+				$ch = curl_init($csv[1][8]);
 				$urlfile="log/temp".$fotoname.".png";
 				$fp = fopen($urlfile, 'wb');
 				curl_setopt($ch, CURLOPT_FILE, $fp);
@@ -235,14 +235,14 @@ exit;
 				$homepage .="\n";
 				$homepage .="Titolo: ".$csv[$i][2]."\n";
 				$homepage .="Categoria: ".$csv[$i][3]."\n";
-				$homepage .="Ingredienti:\n".$csv[$i][4]."\n";
-				$homepage .="Preparazione:\n".$csv[$i][5]."\n";
-	if ($csv[$i][8] !=NULL || $csv[$i][8] !=NULL) $homepage .="Ricetta proposta da: ".$csv[$i][8]." ".$csv[$i][9]."\n";
-	if ($csv[$i][6] !=NULL) $homepage .="Tempo di preparazione: ".$csv[$i][6]."\n";
-	if ($csv[$i][7] !=NULL)	$homepage .="Foto: ".$csv[$i][7]."\n";
-				$homepage .="Città: ".$csv[$i][10]."\n";
-				$homepage .="Regione: ".$csv[$i][11]."\n";
-				$homepage .="Note narrative: ".$csv[$i][17];
+				$homepage .="Ingredienti:\n".$csv[$i][14]."\n";
+				$homepage .="Preparazione:\n".$csv[$i][15]."\n";
+	if ($csv[$i][6] !=NULL || $csv[$i][7] !=NULL) $homepage .="Ricetta proposta da: ".$csv[$i][6]." ".$csv[$i][7]."\n";
+	if ($csv[$i][11] !=NULL) $homepage .="Tempo di preparazione: ".$csv[$i][11]."\n";
+	if ($csv[$i][8] !=NULL)	$homepage .="Foto: ".$csv[$i][8]."\n";
+				$homepage .="Città: ".$csv[$i][9]."\n";
+				$homepage .="Regione: ".$csv[$i][10]."\n";
+	if ($csv[$i][22] !=NULL)			$homepage .="Note narrative: ".$csv[$i][22];
 				$homepage .="\n____________\n";
 		}
 		$chunks = str_split($homepage, self::MAX_LENGTH);
@@ -301,7 +301,7 @@ exit;
 		//		$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20%2A%20WHERE%20upper(K)%20like%20%27%25";
 		//		$urlgd .=$comune;
 		//		$urlgd .="%25%27%20&key=".GDRIVEKEY."&gid=".GDRIVEGID2;
-				$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20%2A%20WHERE%20upper(N)%20like%20%27X%27";
+				$urlgd  ="https://spreadsheets.google.com/tq?tqx=out:csv&tq=SELECT%20%2A%20WHERE%20upper(M)%20like%20%27X%27";
 
 				$urlgd .="%20&key=".GDRIVEKEY."&gid=".GDRIVEGID2;
 				$csv = array_map('str_getcsv',file($urlgd));
@@ -342,8 +342,8 @@ exit;
 
 	 				$homepage .="\n";
 
-	 				$lat10=floatval($csv[$i][15]);
-	 				$long10=floatval($csv[$i][16]);
+	 				$lat10=floatval($csv[$i][20]);
+	 				$long10=floatval($csv[$i][21]);
 	 				$theta = floatval($lon)-floatval($long10);
 	 				$dist =floatval( sin(deg2rad($lat)) * sin(deg2rad($lat10)) +  cos(deg2rad($lat)) * cos(deg2rad($lat10)) * cos(deg2rad($theta)));
 	 				$dist = floatval(acos($dist));
@@ -372,9 +372,9 @@ exit;
 	 							$distanza[$i]['distanza'] =$csv[$i][100];
 	 							$distanza[$i]['distanzamt'] =$csv[$i][101];
 	 							$distanza[$i]['id'] =$csv[$i][0];
-	 							$distanza[$i]['lat'] =$csv[$i][15];
-	 							$distanza[$i]['lon'] =$csv[$i][16];
-	 							$distanza[$i]['comune'] =$csv[$i][10];
+	 							$distanza[$i]['lat'] =$csv[$i][20];
+	 							$distanza[$i]['lon'] =$csv[$i][21];
+	 							$distanza[$i]['comune'] =$csv[$i][9];
 	 							$distanza[$i]['titolo'] =$csv[$i][2];
 	 					//		$distanza[$i]['portata'] =$csv[$i][5];
 	 					//		$distanza[$i]['uver'] =$csv[$i][6];
